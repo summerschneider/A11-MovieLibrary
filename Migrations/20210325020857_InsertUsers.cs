@@ -6,7 +6,7 @@ namespace MovieLibraryOO.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Migrations", "Data", @"4-InsertUsers.sql");
+            var sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Migrations", "Data", @"4-InsertUsers.sql");  //inserting info from the file in data folder
             migrationBuilder.Sql(File.ReadAllText(sqlFile));
         }
 
