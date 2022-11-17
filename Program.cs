@@ -39,28 +39,32 @@ namespace MovieLibraryEntities
 
                                             if (isNullInput == false)
                                             {
-                                                var displayMovie = db.Movies.Include(x => x.MovieGenres).FirstOrDefault(x => x.Title.ToUpper().Contains(movieUserInput.ToUpper()));
+                                                var displayMovie = db.Movies.Include(x => x.MovieGenres).ThenInclude(x => x.Genre).Where(x => x.Title.ToUpper().Contains(movieUserInput.ToUpper()));
 
                                                 if (displayMovie is not null)
                                                 {
-                                                    Console.WriteLine($"Movie {displayMovie.Id}: {displayMovie.Title}, Release Date: {displayMovie.ReleaseDate}");
-                                                    //foreach (var genre in displayMovie.MovieGenres)
-                                                    //{
-                                                    //    Console.WriteLine($"Genre {genre.Genre.Id}: {genre.Genre.Name}");
-                                                    //}
-                                                    Console.WriteLine();
+                                                    foreach (var movie in displayMovie)
+                                                    {
+                                                        Console.WriteLine($"Movie {movie.Id}: {movie.Title}, Release Date: {movie.ReleaseDate}");
+                                                        foreach (var genre in movie.MovieGenres)
+                                                        {
+                                                            Console.WriteLine($"\tGenre {genre.Genre.Id}: {genre.Genre.Name}");
+                                                        }
+                                                        Console.WriteLine();
+                                                    }
                                                 }
-                                                else if (displayMovie is null)
+                                                else
                                                 {
                                                     Console.WriteLine("Inputted movie title does not exist\n");
+                                                    break;
                                                 }
-                                                break;
                                             }
                                             else
                                             {
                                                 Console.WriteLine("Movie title cannot be null\n");
                                                 break;
                                             }
+                                            break;
                                         }
                                     case "2":  //display all movies
                                         {
@@ -184,7 +188,7 @@ namespace MovieLibraryEntities
                                     if (isNullInput2 == false)
                                     {
                                         var deleteMovie = db.Movies.FirstOrDefault(x => x.Title.ToUpper().Contains(titleUserInput2.ToUpper()));
-                                        if (deleteMovie is not null && isNullInput2 == false)
+                                        if (deleteMovie is not null)
                                         {
                                             Console.WriteLine($"Movie {deleteMovie.Id}: {deleteMovie.Title}, Release Date: {deleteMovie.ReleaseDate}");
 
